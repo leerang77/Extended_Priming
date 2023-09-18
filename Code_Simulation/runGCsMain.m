@@ -1,4 +1,4 @@
-function result = runGCs_main(varargin)
+function result = runGCsMain(varargin)
 %--------------------------------------------------
 % Summary:
 %   Store the summary statistics of the current status of the simulation.
@@ -73,7 +73,9 @@ addpath('sim_initialization_functions')
 addpath('concentration_functions')
 
 saveresult = 1; %Change to 0 if don't want to save result
-param = initializeParameters(varargin{:});
+if nargin > 1 %Individual parameters are given, rather than the parameter struct
+    param = initializeParameters(varargin{:});
+end
 rng(param.first);
 fnm = getFileLocation(param);
 tstart = tic;
