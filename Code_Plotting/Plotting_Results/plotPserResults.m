@@ -1,7 +1,7 @@
 % Author: Leerang Yang
 % Last modified 2023/08/12
 % This code visualizes the impact of antigen release duration during
-% extended release on the 
+% extended release on the (Figs 6G-I)
 
 %% Loading Data
 % Load pSER simulation summary data and simply redundant data

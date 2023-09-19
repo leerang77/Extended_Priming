@@ -20,6 +20,8 @@ Sachin H. Bhagchandani<sup>1,2,3,5,7†</sup>, Leerang Yang<sup>1,4,6,7†</sup>
 † Denotes equal contributions
 *Correspondence to: djirvine@mit.edu & arupc@mit.edu
 
+&nbsp;
+
 ## Introduction 
 ###
 This model can be divided into two parts:  
@@ -60,6 +62,7 @@ The model predicts the dynamics of antigen and antibody concentrations, GC B cel
 * Table S2: Summary of T cell model parameters and their values.
 * Table S3: Summary of B cell model parameters and their values.
 
+&nbsp;
 
 ## Overview
 ### System Requirement
@@ -127,13 +130,83 @@ The model predicts the dynamics of antigen and antibody concentrations, GC B cel
 ├── .gitignore                          : Gitignore
 └── README.md                           : README
 ```
+&nbsp;
 
 ## Running Instruction
 ### Model of T cell priming
+#### 1. Fitting the parameters $D_0, T_0$ and obtaining the DC, antigen-loaded DC, T cell, and Tfh cell dynamics
+```MATLAB
+cd Code_Simulation/tcell_functions
+[x_optim, chisq, params_guess, res, exitflags] = tCellModel(1)
+```
+**Outputs:**  
+(1) Outcome of the parameter fitting  
+(2) Plots of the cell dynamics and comparison of Tfh cell numbers
+
+<img src="Outputs/tCellModel_Output.png" alt="Alt text" width="600" />  
+<img src="Outputs/innate_dynamics.png" alt="Alt text" width="600" />
+<img src="Outputs/Tcell_number.png" alt="Alt text" width="155" />  
+
+#### 2. Plotting the cell dynamics with pre-determined $D_0, T_0$ without fitting
+```MATLAB
+cd Code_Simulation/tcell_functions
+run plotTcellModel
+```
+&nbsp;
+
+### Model of B cell response  
+#### 1. Creating text files with parameters for simulations
+(If you downloaded the entire repository, the text files are already contained in the folder 'Parameters', and this step may be skipped.)  
+In MATLAB editor:
+```MATLAB
+cd <path>/Code_Parameter_Generation
+run createBaseCases
+run createPserParameters
+```
+This creates the three text files in the folder 'Parameters'. 
+
+#### 2. Running simulations
+We provide instructions for running the simulation using a High Performance Computing Cluster with slurm workload manager. The instructions should be adapted to a specific computing platform being used. After logging into the cluster, upload the entire repository.  
+In Linux Shell:
+```bash
+cd <path>/Code_Simulation
+mkdir slurm_output
+chmod +x submitToSlurm
+./submitToSlurm runGCsMain < ../Parameters/Base_cases.txt
+./submitToSlurm runPserWrapper < ../Parameters/pSER_params.txt
+```
+**Output:**  
+When the simulations have successfully run, folder 'Data' is created within 'Code_Simulation'. This folder contains multiple subfolders, which contain MATLAB data files. We can quickly check if the correct numbers of data files have been saved. 
+```bash
+find <path>/Code_Simulation/Data/ -type f -name "*.mat" | wc -l
+```
+The output should be 130. 
 
 
-### Model of B cell response
+#### 3. Analyzing the results
 
+In Linux Shell:
+```bash
+cd <path>/Code_Plotting/summarizing_results
+chmod +x submitSummarize.sh
+sbatch submitSummarize.sh summarizeResults
+sbatch submitSummarize.sh pSerSummarizeResults
+```
+
+
+
+#### 4. Plotting the results
+Plotting can be done on the local machine. Download the data files 'summary.mat' and 'pSER_summary.mat' in the folder 'Code_Plotting'.
+
+In MATLAB editor: 
+```MATLAB
+cd plotting_results
+run plotResults
+run plotPserResults
+```
+
+
+&nbsp;
 
 ## Contact
 For questions, contact Leerang Yang (leerang@mit.edu)

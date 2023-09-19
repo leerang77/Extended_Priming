@@ -1,68 +1,62 @@
 function result = runGCsMain(varargin)
-%--------------------------------------------------
-% Summary:
-%   Store the summary statistics of the current status of the simulation.
-%   This function is called repeatedly at a given time interval
+% Summary: Store summary statistics of the simulation status.
 
-% Output:
-%   result: Struct array that have the following fields
-%     param: struct containing the parameters 
-%            **See documentation for initializeParameters.m**
-%     naive: 200 x 2210 x 7 array
-%         Array of naive B cells
-%         Dim1: GC; Dim2: Lineage
-%         Dim3: 1.Lineage 2.Target 3.WT-aff, 4.Variant-aff,
-%               5. Time of activation, 6-7: First and last 40 residues in
-%               decimal number (convert to binary for mutation state)
-%     gc: struct with info about GCs
-%       gc.numbytime: 200 x N x 4 array; N=(tmax*4+1)*(2). 
-%         # of GC B cells with affinities greater than 6, 7, 8, 9
-%         Dim1: GC
-%         Dim2: First and last N/2 columns are dominant, sub B cells resp.
-%         Dim3: Time from 0 to tmax every 0.25 day
-%       gc.affbytime: similar to gc.numbytime, but 100, 90, 75, 50 
-%         percentiles affinities of GC B cells
-%       gc.numbylineage: 200 x N x 2010 array; N=(tmax/7+1). 
-%         # of GC B cells in each lineage
-%         Dim1: GC; Dim2: Time from 0 to tmax every 7 days 
-%         Dim3: Lineage number
-%       gc.finalgc: 200 x 3000 x 5 array;
-%         Array of Gc B cells at the last time point
-%         Dim1: GC; Dim2: B cells
-%         Dim3: 1.Lineage 2.Target 3.WT-aff, 4.Var-aff, 5.Num of mutations
-%     conc: struct with info about concentrations
-%       conc.concarray: 4 x 3 x (tmax*4+1) array
-%         Concentrations of antigen and antibodies 
-%         Dim1: 1.Ag 2.IgM(natural) 3.IgM(immune) 4.IgG
-%         Dim2: For Ag(row1): Soluble, IC1, IC2
-%               For Abs(rows2-4): Empty, Target1, Target2
-%         **See documentation for updateConcentrations.m for more details**
-%       conc.concarray_Epmask: 2 x 2 x (tmax*4+1) array
-%         Concentrations of antigen considering epitope masking (or lack
-%         thereof)
-%         Dim1: Soluble, IC-FDC
-%         Dim2: Dominant, subdominant epitope
-%       conc.Kaarray: 3 x 2 x (tmax*4+1) array
-%         WT-binding affinities (Ka; nM^-1) of antibodies 
-%         Dim1: 1.IgM(natural), 2.IgM(immune), 3.IgG
-%         Dim2: 1.Dominant epitope, 2.Subdominant epitope
-%       conc.Kaarray_var: Similar to conc.Kaarray but Variant affinities
-%     output: struct with info about GC output cells
-%       output.pcnumbytime: similar to gc.numbytime, but for PCs
-%       output.memnumbytime: similar to gc.numbytime, but for Mem B cells
-%       output.pcaffbytime: similar to gc.affbytime, but for PCs
-%       output.memaffbytime: similar to gc.affbytime, but for Mem B cells
-%     memoryCellsEGC: 9 x N array; N may vary; Array of EGC-derived Mems
-%     plasmaCellsEGC: 6 x N array; N may vary; Array of EGC-derived PCs
-%     dead: struct with info about dead PCs
-%       dead.plasmaCells: 6x(2*10^6) array; Array of dead GC-derived PCs
-%       dead.PCnum: Scalar; number of dead GC-derived PCs
-%       dead.plasmaCellsEGC: 6x(2*10^6) array;Array of dead EGC-derived PCs
-%       dead.numPC: Scalar; number of dead EGC-derived PCs
+% INPUTS:
+%   varargin: Parameters defining simulation conditions. 
+%             Refer to documentation for "initializeParameters".
 
-% Inputs:
-%  varargin: Various parameters that define the simulation condition. 
-%       For details, see documentation for function "initializeParameters"
+% OUTPUT:
+%   result: Struct containing the following fields:
+
+%   - param: Parameters struct. 
+%     [Refer to documentation for initializeParameters.m]
+
+%   - naive: 200x2210x7 array representing naive B cells.
+%     - Dim1: GC
+%     - Dim2: Lineage
+%     - Dim3: [Lineage, Target, WT-aff, Variant-aff, Time of activation,
+%              First 40 residues (decimal), Last 40 residues (decimal)].
+%     * Convert decimal residues to binary for mutation state.
+
+%   - gc: Information about GCs.
+%     - gc.numbytime: 200xNx4 array (# of GC B cells with affinities >6, 7, 8, 9).
+%         * N = (tmax*4+1)*2.
+%         - Dim1: GC
+%         - Dim2: [Dominant B cells (First N/2 columns), Sub B cells (Last N/2 columns)].
+%         - Dim3: Time from 0 to tmax at 0.25-day intervals.
+%     - gc.affbytime: Like gc.numbytime, but for 100, 90, 75, 50 percentiles affinities.
+%     - gc.numbylineage: 200xNx2010 array (# of GC B cells per lineage).
+%         * N = tmax/7+1.
+%         - Dim1: GC
+%         - Dim2: Time from 0 to tmax at 7-day intervals.
+%         - Dim3: Lineage number.
+%     - gc.finalgc: 200x3000x5 array of GC B cells at the last time point.
+%         - Dim1: GC
+%         - Dim2: B cells
+%         - Dim3: [Lineage, Target, WT-aff, Var-aff, # of mutations].
+
+%   - conc: Concentration information.
+%     - conc.concarray: 4x3x(tmax*4+1) array for antigen & antibodies concentrations.
+%         - Dim1: [Ag, IgM(natural), IgM(immune), IgG]
+%         - Dim2: [Soluble, IC1, IC2 (for Ag); Empty, Target1, Target2 (for Abs)].
+%         [Refer to updateConcentrations.m for details]
+%     - conc.concarray_Epmask: 2x2x(tmax*4+1) for antigen with/without epitope masking.
+%         - Dim1: [Soluble, IC-FDC]
+%         - Dim2: [Dominant, Subdominant epitope].
+%     - conc.Kaarray & conc.Kaarray_var: 3x2x(tmax*4+1) for antibody WT/Variant affinities.
+%         - Dim1: [IgM(natural), IgM(immune), IgG]
+%         - Dim2: [Dominant epitope, Subdominant epitope].
+
+%   - output: GC output cell details.
+%     Contains fields similar to "gc" but specific for PCs and Mem B cells.
+
+%   - memoryCellsEGC: 9xN array of EGC-derived Memory cells.
+%   - plasmaCellsEGC: 6xN array of EGC-derived PCs.
+
+%   - dead: Dead PCs information.
+%     - dead.plasmaCells & dead.plasmaCellsEGC: 6x(2*10^6) arrays for dead GC/EGC-derived PCs.
+%     - dead.PCnum & dead.numPC: Scalars for the number of dead GC/EGC-derived PCs.
+
 %--------------------------------------------------
 
 %% Define file name for saving the data
@@ -173,7 +167,7 @@ end
 %% Initialize for competitive phase
 agconc_Epmask = epitopeMasking(agconc, abconc, Ka, param); 
                                         %Get effective concentration
-numTcell = getnumTcells(param); % Get number of T cells
+numTcell = getNumTcells(param); % Get number of T cells
 tspan = 0:param.dt:param.tmax;
 tspan_summary = param.tspan_summary;
 T = 0; % Total simulation time
@@ -639,7 +633,7 @@ concarray = zeros(size(memoryCellsEGC(2,:)));
 for ep = 1:param.n_ep
    concarray = concarray + conc(ep)*(memoryCellsEGC(2,:)==ep);
 end
-activation_signal = ((concarray*param.EGCactivation/param.C0).^0.5.*...
+activation_signal = ((concarray/param.C0).^0.5.*...
     (10.^(min(memoryCellsEGC(3,:),10)-param.f0))).^param.w2;
 if param.w1 > 0 
     activation_signal = ((param.w1+1)*activation_signal)./ ...

@@ -3,6 +3,29 @@
 % Description: This code is used to generate various data visualization plots
 % summarizing simulation results. It imports data from the "summary.mat" file
 % and creates plots to visualize the simulation results.
+
+% SUMMARY OF THE FIGURES PLOTTED:
+% 1. Antigen Amount over time: Soluble and IC concentrations for bolus,
+% 2-ED, and 7-ED. (Fig. 4B)
+% 2. Antigen Amount Bar Plot: Maximum antigen amount (native, non-native)
+% on FDC for bolus, 2-ED, ED. (Fig. 4D)
+% 3. Antibody Concentration Over Time: Antibody titer for bolus, 2-ED, and
+% ED. (Fig. 4C)
+% 4. GC B cell: Displays total GC B cells, Antigen+ GC B cells, and
+% Fraction of Antigen+ GC B cells. (Fig. 4E and F)
+% 5. Ag+ B cell fraction bar graph: Shows the fraction of Ag+ GC B cells
+% for different conditions. (Fig. 4G)
+% 6. Antibody and Antigen Amount Over Time For Extended 2nd Dose: Displays
+% titer for Native and Non-Native for the extended second dose. (Fig. 6B-C)
+% 7. Ag amount on FDC bar graphs for extended 2nd dose: Shows the antigen
+% amount on FDC for the regular and extended second doses. (Fig. 6D)
+% 8. Total GC B cells and Ag+ B cell fraction bar graph for Extended 2nd
+% Dose (Fig. 6E-F)
+% 9. Number of GC B cells when Both doses are extended for 2-dose ED (Fig.
+% S5D-E)
+
+
+
 % -------------------------------------------
 %% Figure Settings
 % Set the default font to Arial for all figures

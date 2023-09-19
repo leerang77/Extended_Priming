@@ -4,34 +4,36 @@ function param = initializeParameters(varargin)
 %   Initializes the variables based on inputs.
 %   Also initialize parameters whose values are fixed. 
 
-% Inputs:
-%  varargin: cell array of the parameters in order (see lines 11-13)
-%   vaxnum: Integer between 1 and 4; indicates dose number
-%   T: 0 indicates bolus
-%   k: 0 indicates bolus
-%   numshot: 1 indicates bolus
-%   E1h: Between 6 and 8. Defines naive B cell germline affinities
-%   dE12: Between 0 and 1. Defines naive B cell germline affinities
-%   p: Between 0 and 1. Fraction of naive B cells that are subdominant
-%   masking: 1 if epitope masking, 0 if not
-%   C0: Reference antigen concentration
-%   w1: Typically 0. If not, then alternative Ag capture model is used.
-%       Defines saturation of antigen capture 
-%   w2: Selection stringency. Typically 0.5; varied between 0.3 and 1
-%   steric: 0 if no masking. Varied between 0 and 1 if masking is 1
-%   memToGCFrac: Fraction of pre-existing memory cells that can enter GC
-%   outputprob: Fraction of selected GC B cells that exit
-%   outputpcfrac: Fraction of exiting GC B cells that become plasma cell
-%   rho: Epitope conservation level for subdominant. Typically 0.95
-%   earlybooster: Typically 0. Only for 3rd dose. If not 0, then it defines
-%   how many days after Vax2 the Vax3 is given (eg. 42)
-%   tmax: Time duration of simulation 
-%   first: First index of GCs (eg. 201)
-%   last: Last index of GCs (eg. 400) 
+%% Initializes Parameters for Simulation
+%
+% This function initializes variables and parameters based on the provided inputs.
+%
+% ## Usage
+% param = initializeParameters(vaxnum, T, k, numshot, E1h, dE12, p, ...
+%                              masking, C0, w1, w2, steric, memToGCFrac,...
+%                              outputprob, outputpcfrac, rho, pSER, tmax, first, last);
+
+% Inputs
+%
+% vaxnum - Integer (1-4): Indicates dose number. ----- ONLY 1 FOR THIS STUDY
+% T, k, numshot - Scalars: Dosing scheme parameters
+% E1h - Scalar (6-8): Defines naive B cell germline affinities.
+% dE12, p - Scalars (0-1): Naive B cell germline affinities.
+% masking - Binary: 1 for epitope masking, 0 otherwise. ----- ONLY 0 FOR THIS STUDY
+% C0 - Scalar: Reference antigen concentration.
+% w1 - Scalar: Defines saturation of antigen capture (typically 0).
+% w2 - Scalar (0.3-1): Selection stringency (typically 0.5).
+% steric - Scalar (0-1): 0 if no masking; varies if masking is 1. ----- ONLY 0 FOR THIS STUDY
+% memToGCFrac - Scalar: Fraction of pre-existing memory cells entering GC. ----- ONLY 0 FOR THIS STUDY
+% outputprob, outputpcfrac - Scalars: B cell exit and conversion to plasma cell.
+% rho - Scalar (typically 0.95): Epitope conservation level for subdominant. ----- NOT RELEVANT FOR THIS STUDY
+% pSER - Scalar: Number of doses given as slow-release (from the final dose).
+% tmax - Scalar: Time duration of simulation.
+% first, last - Integers: Indexes of GCs (e.g., 201-400).
 
 % Output:
-%   param: Struct having parameters and constants as fields
-%          See the body of the code for the fields and explanations
+% param - Struct: Contains simulation parameters and constants. Refer to the function body for detailed fields.
+
 %% Initialization
 [vaxnum, T, k, numshot, E1h, dE12, p, ...
  masking, C0, w1, w2, steric, memToGCFrac,...
@@ -125,7 +127,6 @@ param.d_IgG = log(2)/4; %per day; Decay rate of IgG; Half-life 28 days
 param.d_pc = log(2)/4; %per day; Decay rate of PCs; Half-life 4 days
 
 %% Recruitment, birth, death rates
-param.EGCactivation = 1;
 param.lambdamax = 1; % per day; Max rate of GC entry for naive B cells
 param.betamax = 4; % per day; Max rate of GC B cell positive selection.
                       % Division of up to ~4 times a day is possible

@@ -71,4 +71,3 @@ end
 % Display constructed input string
 fprintf('%s\n', strjoin(inputs, '_'));
 end
-end
