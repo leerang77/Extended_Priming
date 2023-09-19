@@ -2,7 +2,7 @@
 % Tfh cells using pre-defined parameters. 
 
 % Pre-defined kinetic parameters
-x_optim = [1.7826e6; 28.0906];
+x_optim = dlmread('optimized_parameters.txt', '\t');
 
 % Plotting
 fit_parameter = 0;

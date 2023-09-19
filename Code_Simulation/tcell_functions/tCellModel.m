@@ -34,7 +34,7 @@ elseif nargin > 2
 end
 
 % Constants
-INNATE_PARAMS = [3, 3, 0.1, 1.5, 0.22, 1.2, 20]; % Kinetic parameters
+INNATE_PARAMS = [3, 3, 0.1, 1.5, 0.22, 1.2, 0]; % Kinetic parameters
                 %d_Ag, d_Adj, S_Adj, alpha, delta, mu, k
 
 % Schemes to compare
@@ -66,10 +66,19 @@ f2 = plotTcellNum(x_optim, INNATE_PARAMS, scheme, Tfh_data, [1,2,3,4,5,6]); % Co
 % f2 = plotTcellNum(x_optim, INNATE_PARAMS, scheme, Tfh_data, [1,7]);
 
 %% Save results
-savefig(f1, 'innate_dynamics.fig')
-savefig(f2, 'Tcell_number.fig')
-saveas(f1, 'innate_dynamics.png')
-saveas(f2, 'Tcell_number.png')
+% Define the output directory
+outputDir = fullfile('..', '..', 'Outputs');
+
+% Save figures in .fig format
+savefig(f1, fullfile(outputDir, 'innate_dynamics.fig'));
+savefig(f2, fullfile(outputDir, 'Tcell_number.fig'));
+
+% Save figures in .png format with a resolution of 300 dpi
+print(f1, fullfile(outputDir, 'innate_dynamics.png'), '-dpng', '-r300'); 
+print(f2, fullfile(outputDir, 'Tcell_number.png'), '-dpng', '-r300'); 
+
+% Save optimized parameters to a text file
+dlmwrite('optimized_parameters.txt', x_optim, 'delimiter', '\t');
 clear f1 f2
 end
 
@@ -94,7 +103,7 @@ function [x_optim, chisq, params_guess, res, exitflags] = fitData(INNATE_PARAMS,
 %---------------------------------------
 % Fit the data using Monte Carlo technique with fmincon.
 %---------------------------------------
-num_MC = 15;
+num_MC = 10;
 data_index = [1,2,3,4,5,6];
 [x_optim, chisq, params_guess, res, exitflags] = monte_carlo_fmincon(...
     @(x) objFunMLE(x, INNATE_PARAMS, scheme, Tfh_data, data_index), ...
@@ -312,7 +321,7 @@ subplot(1,4,3)
 axis_setting(gca, 'Number of Days', '# T cells')
 subplot(1,4,2)
 axis_setting(gca, 'Number of Days', '# aDC^{Ag+}s')
-leg = legend(scheme.names(flip(scheme_idx)));
+leg = legend(scheme.names(flip(scheme_idx)), 'location', 'best');
 leg.ItemTokenSize = [10,5];
 subplot(1,4,1)
 axis_setting(gca, 'Number of Days', '# DCs')
