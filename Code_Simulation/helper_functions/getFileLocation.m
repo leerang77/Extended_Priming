@@ -63,11 +63,6 @@ for i = 1:length(dirnm)
     fnm{i} = fullfile(dirnm{i}, [num2str(param.first), '_to_', num2str(param.last), '.mat']);
 end
 
-% Check if the file already exists
-if exist(fnm{param.vaxnum}, 'file')
-    error('File already exists');
-end
-
 % Display constructed input string
 fprintf('%s\n', strjoin(inputs, '_'));
 end

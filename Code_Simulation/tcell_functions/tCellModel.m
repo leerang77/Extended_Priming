@@ -34,7 +34,7 @@ elseif nargin > 2
 end
 
 % Constants
-INNATE_PARAMS = [3, 3, 0.1, 1.5, 0.22, 1.2, 0]; % Kinetic parameters
+INNATE_PARAMS = [3, 3, 0.1, 1.5, 0.22, 1.2, 10]; % Kinetic parameters
                 %d_Ag, d_Adj, S_Adj, alpha, delta, mu, k
 
 % Schemes to compare

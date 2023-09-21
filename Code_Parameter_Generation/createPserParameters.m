@@ -16,7 +16,7 @@ fid = fopen(filePath, 'a');
 
 % Define the repeat ranges
 first = 1; last = 2000; numfrag = 10;
-first = linspace(first, last+1, numfrag+1);
+first_arr = linspace(first, last+1, numfrag+1);
 first_arr(end) = [];
 numrepeat = (last-first+1)/numfrag;
 
@@ -24,8 +24,9 @@ numrepeat = (last-first+1)/numfrag;
 for pSER_ag_release_time = [1, 2, 3, 5, 7, 10, 14]
     for first = first_arr
         last = first + numrepeat - 1;
-        parameters = [T, k, numshot, pSER_ag_release_time, pSER_adj_release_time, first, last];
-        fprintf(fid, '%g\t%g\t%g\t%g\t%g\t%g\t%g\n', parameters);
+        parameters = num2cell([T, k, numshot, pSER_ag_release_time, pSER_adj_release_time, first, last]);
+        parameters = cellfun(@(x) num2str(x), parameters, 'UniformOutput', false);
+        fprintf(fid, [strjoin(parameters(1:end),'\t'),'\n']);
     end
 end
 

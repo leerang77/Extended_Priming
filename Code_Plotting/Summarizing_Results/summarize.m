@@ -1,4 +1,4 @@
-function [tspan, totalnum, agconc_mean, abtiter_mean, IgM_mean, IgG_mean, gcnum] = summarize(result)
+function [tspan, totalnum, agconc, abtiter, agconc_mean, abtiter_mean, IgM_mean, IgG_mean, gcnum] = summarize(result)
 % This function summarizes the results.
 %
 % Input:
@@ -17,30 +17,33 @@ function [tspan, totalnum, agconc_mean, abtiter_mean, IgM_mean, IgG_mean, gcnum]
 tspan = result.param.tspan_summary;
 totalnum = squeeze(sum(result.gc.numbytime, 1));
 gcnum = result.gc.numbytime;
-agconc_mean = getAgConc(result.param, result);
-[abtiter_mean, IgM_mean, IgG_mean] = getAbTiter(result);
+[agconc, agconc_mean] = getAgConc(result.param, result);
+[abtiter, abtiter_mean, IgM_mean, IgG_mean] = getAbTiter(result);
 end
 
 %% Subfunctions
 
-function agconc_mean = getAgConc(param, result)
+function [agconc, agconc_mean] = getAgConc(param, result)
 % Calculates the mean aggregate concentration from a set of simulation results.
 % Output:
 %   - agconc_mean: Mean aggregate concentration as a 4xN matrix, where N is the number of time points.
-
+Ag0 = 10;
+agconc = cell(1,length(result.conc));
 agconc_mean = zeros(4,length(param.tspan_summary));
 for i=1:length(result.conc)
-    agconc = squeeze(result.conc{i}.concarray(1,:,:));
+    agconc{i} = squeeze(result.conc{i}.concarray(1,:,:))/Ag0;
     
-    agconc_mean = agconc_mean + agconc;
+    agconc_mean = agconc_mean + agconc{i};
     agconc_mean(isnan(agconc_mean)) = 0;
 end
 agconc_mean = agconc_mean/length(result.conc);
+
+
 end
 
 
 
-function [abtiter_mean, IgM_mean, IgG_mean] = getAbTiter(result)
+function [abtiter, abtiter_mean, IgM_mean, IgG_mean] = getAbTiter(result)
 % Calculates the mean antibody titers and antibody class concentrations from simulation results.
 %
 % Output:

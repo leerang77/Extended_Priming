@@ -22,7 +22,7 @@ param.pSER_adj_release_time = pSER_adj_release_time;
 
 
 % Run simulation
-result = runGCs_main(param);
+result = runGCsMain(param);
 
 % Define the file path
 fnm = getFileLocation(param);

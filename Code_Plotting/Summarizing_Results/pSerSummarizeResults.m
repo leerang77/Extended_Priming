@@ -25,17 +25,20 @@ if ~exist(summaryFile, 'file')
     n = length(pSER_ag_release_times);
     tspan = cell(1,n);
     totalnum = cell(1,n);
+    agconc = cell(1,n);
+    abtiter = cell(1,n);
     agconc_mean = cell(1,n);
     abtiter_mean = cell(1,n);
 
+
     % Summarize results for each pSER_ag_release_time
-    for j = 1:length(pSER_ag_release_times)
-        [tspan, totalnum, agconc_mean, abtiter_mean] = ...
-            summarizeResultsForParameter(j, pSER_ag_release_times, p, tspan, totalnum, agconc_mean, abtiter_mean);
+    for j = 1:n
+        [tspan{j}, totalnum{j}, agconc{j}, abtiter{j}, agconc_mean{j}, abtiter_mean{j}] = ...
+            summarizeResultsForParameter(j, pSER_ag_release_times, p);
     end
     
     % Save Results
-    save(summaryFile, 'tspan', 'abtiter_mean', 'agconc_mean', 'totalnum', '-v7.3');
+    save(summaryFile, 'tspan', 'agconc', 'abtiter', 'abtiter_mean', 'agconc_mean', 'totalnum', '-v7.3');
 end
 
 %% Subfunctions
@@ -48,8 +51,8 @@ function initializeDependencies()
 end
 
 
-function [tspan, totalnum, agconc_mean, abtiter_mean] =...
-    summarizeResultsForParameter(j, pSER_ag_release_times, p, tspan, totalnum, agconc_mean, abtiter_mean)
+function [tspan, totalnum, agconc, abtiter, agconc_mean, abtiter_mean] =...
+    summarizeResultsForParameter(j, pSER_ag_release_times, p)
     % Summarizes the results for a given pSER_ag_release_time.
     
     p.pSER_ag_release_time = pSER_ag_release_times(j);
@@ -67,5 +70,5 @@ function [tspan, totalnum, agconc_mean, abtiter_mean] =...
     result = combineResult(result);
 
     % Summarize result
-    [tspan{j}, totalnum{j}, agconc_mean{j}, abtiter_mean{j}, ~, ~, ~] = summarize(result);
+    [tspan, totalnum, agconc, abtiter, agconc_mean, abtiter_mean, ~, ~, ~] = summarize(result);
 end

@@ -5,7 +5,7 @@ function numTcells = getNumTcells(param)
 
 % Pre-defined kinetic parameters
 x_optim = dlmread('optimized_parameters.txt', '\t');
-kinetic_params = [3, 3, 0.1, 1.5, 0.22, 1.2, 0, x_optim(1), x_optim(2)];
+kinetic_params = [3, 3, 0.1, 1.5, 0.22, 1.2, 10, x_optim(1), x_optim(2)];
 
 % Define T_slow based on the pSER parameter value.
 %   If pSER is 0, there is no extended antigen release.

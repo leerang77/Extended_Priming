@@ -66,9 +66,12 @@ addpath('tcell_functions')
 addpath('sim_initialization_functions') 
 addpath('concentration_functions')
 
-saveresult = 1; %Change to 0 if don't want to save result
 if nargin > 1 %Individual parameters are given, rather than the parameter struct
     param = initializeParameters(varargin{:});
+    saveresult = 1; %Change to 0 if don't want to save result
+else
+    param = varargin{1};
+    saveresult = 0;
 end
 rng(param.first);
 fnm = getFileLocation(param);

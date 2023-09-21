@@ -9,7 +9,7 @@
 % ------------------------------------------------------
 
 % Initialization
-% initializeDependencies();
+initializeDependencies();
 p = baseCaseParameters();
 scenarios = getScenarios();
 
@@ -17,12 +17,12 @@ scenarios = getScenarios();
 for i = 1:numel(scenarios)
     p = updateParameters(p, scenarios{i});
     [result, ~] = loadResult(p);
-    [tspan{i}, totalnum{i}, agconc_mean{i}, abtiter_mean{i}, IgM_mean{i}, IgG_mean{i}, gcnum{i}] = summarize(result);
+    [tspan{i}, totalnum{i}, agconc{i}, abtiter{i}, agconc_mean{i}, abtiter_mean{i}, IgM_mean{i}, IgG_mean{i}, gcnum{i}] = summarize(result);
 end
 
 % Save results
 save(fullfile('..','summary.mat'), 'tspan', 'totalnum',...
-    'IgM_mean', 'IgG_mean', 'agconc_mean', 'abtiter_mean', 'gcnum', '-v7.3');
+    'IgM_mean', 'IgG_mean', 'agconc', 'abtiter', 'agconc_mean', 'abtiter_mean', 'gcnum', '-v7.3');
 
 
 %% Subfunctions
