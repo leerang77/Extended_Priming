@@ -3,18 +3,16 @@ Code repository for the following manuscript submitted to Science Immunology.
 
 **Two-dose “extended priming” immunization amplifies humoral immune responses by synchronizing vaccine delivery with the germinal center response**
 
-Sachin H. Bhagchandani<sup>1,2,3,5,7†</sup>, Leerang Yang<sup>1,4,6,7†</sup>, Laura Maiorino<sup>2,5,8</sup>, Anna M. Romanov<sup>2,5</sup>, Aereas Aung<sup>2,5</sup>, Shengwei Wu<sup>5</sup>, Anika Wadhera<sup>2,5</sup>, Jason Zhang<sup>2,5</sup>, Arup K. Chakraborty<sup>1,4,6,7</sup>, and Darrell J. Irvine<sup>1,2,5,7,8</sup>
+Sachin H. Bhagchandani<sup>1,2,3,5,7†</sup>, Leerang Yang<sup>1,4,6,7†</sup>, Jonathan H. Lam<sup>5</sup>, Laura Maiorino<sup>2,5,8</sup>, Elana Ben-Akiva<sup>2,5</sup>, Kristen A. Rodrigues<sup>2,5</sup>, Anna M. Romanov<sup>2,5</sup>, Heikyung Suh<sup>5,8</sup>, Aereas Aung<sup>2,5</sup>, Shengwei Wu<sup>5</sup>, Anika Wadhera<sup>2,5</sup>, Arup K. Chakraborty<sup>1,4,6,7</sup>, and Darrell J. Irvine<sup>1,2,5,7,8</sup>
 
-
-
-1 Department of Chemical Engineering, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.\
-2 Department of Biological Engineering, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.\
-3 Department of Chemistry, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.\
-4 Department of Physics, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.\
-5 Koch Institute for Integrative Cancer Research, Massachusetts Institute of Technology, 500 Main Street, Cambridge, MA 02139, U.S.A.\
-6 Institute for Medical Engineering and Science, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.\
-7 Ragon Institute of MGH, MIT, and Harvard, Cambridge, MA 02139, U.S.A.\
-8 Howard Hughes Medical Institute, Chevy Chase, MD 20815, USA
+1Department of Chemical Engineering, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.
+2Department of Biological Engineering, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.
+3Department of Chemistry, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.
+4Department of Physics, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.
+5Koch Institute for Integrative Cancer Research, Massachusetts Institute of Technology, 500 Main Street, Cambridge, MA 02139, U.S.A.
+6Institute for Medical Engineering and Science, Massachusetts Institute of Technology, 77 Massachusetts Avenue, Cambridge, MA 02139, U.S.A.
+7Ragon Institute of MGH, MIT, and Harvard, Cambridge, MA 02139, U.S.A.
+8Howard Hughes Medical Institute, Chevy Chase, MD 20815, USA
 
 
 † Denotes equal contributions
